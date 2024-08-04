@@ -38,7 +38,6 @@ fun FabButton(onClick: () -> Unit) {
             contentDescription = null,
             modifier = Modifier
                 .size(20.dp)
-
         )
     }
 }
