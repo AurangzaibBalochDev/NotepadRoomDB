@@ -20,7 +20,11 @@ fun MyNavHost() {
         composable(Routes.NotesListScreen.name) {
             NotesListScreen()
         }
-        composable(Routes.AddNotesScreen.name+"/{id}") {
+        composable(Routes.AddNotesScreen.name) {
+
+            AddNoteUi()
+        }
+        composable(Routes.AddNotesScreen.name + "/{id}") {
 
             AddNoteUi()
         }
