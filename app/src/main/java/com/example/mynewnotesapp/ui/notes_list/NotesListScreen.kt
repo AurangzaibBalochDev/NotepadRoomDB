@@ -2,6 +2,7 @@ package com.example.mynewnotesapp.ui.notes_list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,6 +17,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mynewnotesapp.R
+import com.example.mynewnotesapp.domain.repository.NotesRepository
+import com.example.mynewnotesapp.domain.usecases.DeleteNoteUsecase
 import com.example.mynewnotesapp.ui.base.LocalNavHostController
 import com.example.mynewnotesapp.ui.components.Routes
 import com.example.mynewnotesapp.ui.components.VerticalSpacer
@@ -36,6 +39,7 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
             }
         }
     ) {
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -53,12 +57,13 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                         navController.navigate(
                             Routes.AddNotesScreen.name + "/${note.id}"
                         )
+                    }, onDeleteClick = {
+                        viewModel.deleteNote(note.id.toString())
                     })
                 }
             }
 
+
         }
-
     }
-
 }

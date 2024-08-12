@@ -6,6 +6,7 @@ import com.example.mynewnotesapp.data.data_source.NotesTableDao
 import com.example.mynewnotesapp.data.repository.NotesRepositoryImpl
 import com.example.mynewnotesapp.domain.repository.NotesRepository
 import com.example.mynewnotesapp.domain.usecases.AddNoteUseCase
+import com.example.mynewnotesapp.domain.usecases.DeleteNoteUsecase
 import com.example.mynewnotesapp.domain.usecases.GetNoteById
 import com.example.mynewnotesapp.domain.usecases.GetNotesUseCase
 import com.example.mynewnotesapp.ui.add_note.AddNotesViewModel
@@ -15,30 +16,45 @@ import org.koin.dsl.module
 
 val sharedModules = module {
 
-    single<AppDatabase> {
+    // Provide a singleton instance of AppDatabase
+    single {
         Room.databaseBuilder(get(), AppDatabase::class.java, "AppDb")
             .build()
     }
-    factory<NotesTableDao> {
+
+    // Provide a factory instance of NotesTableDao
+    factory {
         get<AppDatabase>().getMyDao()
     }
-    viewModel {
-        AddNotesViewModel(get(), get(), get())
-    }
-    factory {
-        AddNoteUseCase(get())
-    }
+
+    // Provide a factory instance of NotesRepository
     factory<NotesRepository> {
         NotesRepositoryImpl(get())
     }
-    viewModel {
-        NotesListViewModel(get())
+
+    // Provide use cases
+    factory {
+        AddNoteUseCase(get())
     }
+
+    factory {
+        DeleteNoteUsecase(get())
+    }
+
     factory {
         GetNotesUseCase(get())
     }
+
     factory {
         GetNoteById(get())
     }
 
+    // Provide ViewModels
+    viewModel {
+        AddNotesViewModel(get(), get(), get())
+    }
+
+    viewModel {
+        NotesListViewModel(get(), get())
+    }
 }
