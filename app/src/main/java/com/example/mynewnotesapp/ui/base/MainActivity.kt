@@ -26,8 +26,6 @@ class MainActivity : ComponentActivity() {
                 MyNavHost()
 
             }
-
-//Ab check kr WO phly wo app uninstall kr
         }
 
     }
