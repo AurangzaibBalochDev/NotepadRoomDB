@@ -1,4 +1,5 @@
 package com.example.mynewnotesapp.ui.add_note
+
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,8 +28,14 @@ class AddNotesViewModel(
                 getNoteById(id.toString())?.let { data ->
                     _state.update {
                         it.copy(
-                            note = data
-                        ) } } } } }
+                            note = data,
+                            headingText = "Edit Note"
+                        )
+                    }
+                }
+            }
+        }
+    }
 
 
     fun setTitle(text: String) {
@@ -36,7 +43,10 @@ class AddNotesViewModel(
             it.copy(
                 note = it.note.copy(
                     title = text
-                )) } }
+                )
+            )
+        }
+    }
 
     fun setMessage(text: String) {
         _state.update {

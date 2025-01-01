@@ -6,7 +6,8 @@ import org.koin.core.time.TimeInMillis
 data class NotesData(
     val id: Int = 0,
     val title: String = "",
-    val message: String = ""
+    val message: String = "",
+    val imageUri: String? = null
 )
 
 fun NotesData.toNotesTable(): NotesTable {
@@ -15,5 +16,6 @@ fun NotesData.toNotesTable(): NotesTable {
         message,
         System.currentTimeMillis(),
         id,
+        imageUri
     )
 }

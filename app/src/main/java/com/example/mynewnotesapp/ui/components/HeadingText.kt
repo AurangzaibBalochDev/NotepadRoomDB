@@ -11,7 +11,7 @@ import com.example.mynewnotesapp.R
 fun HeadingText(text: String) {
     Text(
         text = text,
-        color = colorResource(id = R.color.black),
+        color = colorResource(id = R.color.white),
         fontWeight = FontWeight.Medium,
         fontSize = 18.sp,
     )

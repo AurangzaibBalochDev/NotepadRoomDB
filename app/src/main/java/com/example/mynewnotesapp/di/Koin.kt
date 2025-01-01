@@ -15,41 +15,30 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val sharedModules = module {
-
-    // Provide a singleton instance of AppDatabase
     single {
         Room.databaseBuilder(get(), AppDatabase::class.java, "AppDb")
+            .addMigrations()
+            .fallbackToDestructiveMigration()
             .build()
     }
-
-    // Provide a factory instance of NotesTableDao
     factory {
         get<AppDatabase>().getMyDao()
     }
-
-    // Provide a factory instance of NotesRepository
     factory<NotesRepository> {
         NotesRepositoryImpl(get())
     }
-
-    // Provide use cases
     factory {
         AddNoteUseCase(get())
     }
-
     factory {
         DeleteNoteUsecase(get())
     }
-
     factory {
         GetNotesUseCase(get())
     }
-
     factory {
         GetNoteById(get())
     }
-
-    // Provide ViewModels
     viewModel {
         AddNotesViewModel(get(), get(), get())
     }

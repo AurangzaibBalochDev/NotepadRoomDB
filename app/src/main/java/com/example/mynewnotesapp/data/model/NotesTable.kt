@@ -13,6 +13,7 @@ data class NotesTable(
     val timeInMillis: Long,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
+    val imageUri:String?
 )
 
 fun NotesTable.toNotesData() = NotesData(
