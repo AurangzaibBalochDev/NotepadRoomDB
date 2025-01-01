@@ -1,7 +1,5 @@
 package com.example.mynewnotesapp.ui.notes_list.components
 
-import com.example.mynewnotesapp.data.model.NotesTable
-
 sealed class NoteResponse<T>(
     val data: T? = null, val message: String? = null
 ) {

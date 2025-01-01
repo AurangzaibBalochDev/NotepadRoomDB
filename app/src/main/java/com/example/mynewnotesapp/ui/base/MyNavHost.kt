@@ -5,11 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.mynewnotesapp.ui.add_note.AddNoteUi
-import com.example.mynewnotesapp.ui.add_note.AddNotesViewModel
 import com.example.mynewnotesapp.ui.components.Routes
 import com.example.mynewnotesapp.ui.notes_list.NotesListScreen
-import org.koin.androidx.compose.getViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MyNavHost() {

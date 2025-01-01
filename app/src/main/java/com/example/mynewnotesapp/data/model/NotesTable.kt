@@ -3,7 +3,6 @@ package com.example.mynewnotesapp.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.mynewnotesapp.ui.notes_list.components.NotesData
-import org.koin.core.time.TimeInMillis
 
 
 @Entity("Notes")

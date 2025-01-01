@@ -2,7 +2,6 @@ package com.example.mynewnotesapp.di
 
 import androidx.room.Room
 import com.example.mynewnotesapp.data.data_source.AppDatabase
-import com.example.mynewnotesapp.data.data_source.NotesTableDao
 import com.example.mynewnotesapp.data.repository.NotesRepositoryImpl
 import com.example.mynewnotesapp.domain.repository.NotesRepository
 import com.example.mynewnotesapp.domain.usecases.AddNoteUseCase

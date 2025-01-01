@@ -3,7 +3,6 @@ package com.example.mynewnotesapp.ui.add_note
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mynewnotesapp.data.model.NotesTable
 import com.example.mynewnotesapp.domain.usecases.AddNoteUseCase
 import com.example.mynewnotesapp.domain.usecases.GetNoteById
 import com.example.mynewnotesapp.ui.add_note.components.AddNotesState
