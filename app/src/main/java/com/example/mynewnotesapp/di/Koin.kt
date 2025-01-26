@@ -15,7 +15,7 @@ import org.koin.dsl.module
 
 val sharedModules = module {
     single {
-        Room.databaseBuilder(get(), AppDatabase::class.java, "AppDb")
+        Room.databaseBuilder(get(), AppDatabase::class.java, "NewDatabase")
             .addMigrations()
             .fallbackToDestructiveMigration()
             .build()

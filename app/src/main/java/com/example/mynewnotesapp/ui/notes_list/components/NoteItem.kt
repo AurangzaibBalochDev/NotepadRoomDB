@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,56 +40,32 @@ import com.example.mynewnotesapp.ui.components.VerticalSpacer
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-
 fun NoteItem(
-    notesData: NotesData = NotesData(
-        1,
-        "This is my title for the very first time",
-        "This is message and also you can say it as the description of title."
-    ),
+    notesData: NotesData,
+    isSelected: Boolean = false,
     onClick: (() -> Unit)? = null,
-    onDeleteClick: (() -> Unit)? = null
+    modifier: Modifier,
+    onLongClick: ((Boolean) -> Unit)? = null
 ) {
-    var swipeOffset by remember { mutableFloatStateOf(0f) }
-    var isSwiped by remember { mutableStateOf(false) }
+    val backgroundColor =
+        if (isSelected) Color.LightGray else colorResource(id = R.color.creamyWhite)
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(125.dp)
-            .pointerInput(Unit) {
-                detectHorizontalDragGestures { _, dragAmount ->
-                    swipeOffset += dragAmount
-
-                    // Handle swipe gestures
-                    if (swipeOffset > 400f) {
-                        // Trigger delete when swiped enough
-                        if (!isSwiped) {
-                            onDeleteClick?.invoke()
-                            isSwiped = true
-                        }
-                    }
-                    if (swipeOffset < -400f) {
-                        // Reset swipe when moved in the opposite direction
-                        swipeOffset = 0f
-                        isSwiped = false
-                    }
-                }
-            }
-            .offset { IntOffset(swipeOffset.toInt(), 0) } // Apply the swipe offset
+            .height(100.dp)
+            .padding(horizontal = 4.dp, vertical = 4.dp)
     ) {
-
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(125.dp)
+                .height(100.dp)
                 .combinedClickable(
                     onClick = { onClick?.invoke() },
-                    onLongClick = { onDeleteClick?.invoke() }
-                )
-                .padding(horizontal = 6.dp, vertical = 4.dp),
-            shape = RoundedCornerShape(5),
-            colors = CardDefaults.cardColors(colorResource(id = R.color.creamyWhite)),
+                    onLongClick = { onLongClick?.invoke(isSelected) }
+                ),
+            shape = RoundedCornerShape(5.dp),
+            colors = CardDefaults.cardColors(backgroundColor),
             elevation = CardDefaults.elevatedCardElevation(4.dp)
         ) {
             Row {
@@ -97,7 +74,7 @@ fun NoteItem(
                         .fillMaxHeight()
                         .width(10.dp)
                         .background(color = Color.Yellow)
-                ) { /* Placeholder for left side indicator if needed */ }
+                ) { /* Placeholder for left-side indicator */ }
 
                 HorizentalSpacer(10.dp)
 
@@ -112,18 +89,22 @@ fun NoteItem(
                         text = notesData.title,
                         fontSize = 18.sp,
                         color = colorResource(id = R.color.white),
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1
                     )
                     VerticalSpacer(5.dp)
                     Text(
                         text = notesData.message,
                         fontSize = 10.sp,
-                        color = colorResource(id = R.color.white)
+                        color = colorResource(id = R.color.white),
+                        maxLines = 2
                     )
+                    VerticalSpacer(5.dp)
                     Text(
-                        text = System.currentTimeMillis().toString(),
+                        text = notesData.date,
                         fontSize = 10.sp,
-                        color = colorResource(id = R.color.amlostBlack)
+                        color = colorResource(id = R.color.amlostBlack),
+                        maxLines = 1
                     )
                 }
             }

@@ -1,5 +1,6 @@
 package com.example.mynewnotesapp.ui.add_note
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +11,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class AddNotesViewModel(
     private val addNote: AddNoteUseCase,
@@ -46,6 +50,15 @@ class AddNotesViewModel(
             )
         }
     }
+    fun setType(text: String) {
+        _state.update {
+            it.copy(
+                note = it.note.copy(
+                    noteType = text
+                )
+            )
+        }
+    }
 
     fun setMessage(text: String) {
         _state.update {
@@ -57,12 +70,13 @@ class AddNotesViewModel(
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     fun saveNote(callBack: (String) -> Unit) {
         val notesData = state.value.note
+
         if (notesData.title.isBlank() || notesData.message.isBlank()) {
-            callBack.invoke("Fields Empty")
             return
-        }
+        } else
         viewModelScope.launch {
             addNote(state.value.note)
             callBack.invoke("")

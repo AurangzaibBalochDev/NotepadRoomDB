@@ -60,4 +60,28 @@ class NotesListViewModel(
         }
     }
 
+    fun filterNotes(category: String): List<NotesData> {
+        val data = state.value.noteResponse.data ?: return emptyList()
+
+        return if (category == "All") {
+            data
+        } else if (category == "Others") {
+            data.filter { it.noteType != "Personal" && it.noteType != "Home" && it.noteType != "Office" }
+        } else {
+            data.filter { it.noteType == category }
+        }
+    }
+
+    fun filterNotesByTitleandDescription(keywords: String): List<NotesData> {
+        val data = state.value.noteResponse.data ?: return emptyList()
+        return if (keywords.isEmpty()) {
+            data
+        } else {
+            data.filter { note ->
+                note.title.contains(keywords, ignoreCase = true) ||
+                        note.message.contains(keywords, ignoreCase = true)
+            }
+        }
+    }
+
 }

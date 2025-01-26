@@ -9,12 +9,12 @@ import com.example.mynewnotesapp.ui.notes_list.components.NotesData
 data class NotesTable(
     val title: String,
     val message: String,
-    val timeInMillis: Long,
+    val date:String,
+    val noteType:String,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val imageUri:String?
 )
 
 fun NotesTable.toNotesData() = NotesData(
-    id, title, message
+    id, title, message,noteType,date
 )
