@@ -234,7 +234,7 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                 verticalAlignment = CenterVertically
             ) {
                 IconButton(
-                    onClick = {}
+                    onClick = {},
                 ) {
                     Icon(
                         Icons.Default.Home,
@@ -245,6 +245,7 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                 HorizentalSpacer(10.dp)
                 IconButton(
                     onClick = {
+                        navController.navigate(Routes.TodoListPage.name)
                     }
                 ) {
                     Icon(
@@ -374,7 +375,7 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                                     } else selectedNoteIds += note.id.toString()
 
 
-                                }, modifier = Modifier, onLongClick = {
+                                }, onLongClick = {
                                     if (selectedNoteIds.contains(note.id.toString())) {
                                         selectedNoteIds -= note.id.toString()
                                     } else selectedNoteIds += note.id.toString()

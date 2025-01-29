@@ -8,6 +8,7 @@ import com.example.mynewnotesapp.ui.add_note.AddNoteUi
 import com.example.mynewnotesapp.ui.components.Routes
 import com.example.mynewnotesapp.ui.notes_list.NotesListScreen
 import com.example.mynewnotesapp.ui.notes_list.components.MyMenueScreen
+import com.example.mynewnotesapp.ui.notes_list.components.TodoListPage
 
 @Composable
 fun MyNavHost() {
@@ -24,6 +25,9 @@ fun MyNavHost() {
         }
         composable(Routes.MyMenueScreen.name) {
             MyMenueScreen()
+        }
+        composable(Routes.TodoListPage.name) {
+            TodoListPage()
         }
         composable(Routes.AddNotesScreen.name + "/{id}") {
             AddNoteUi()

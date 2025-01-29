@@ -1,6 +1,5 @@
 package com.example.mynewnotesapp.domain.usecases
 
-import com.example.mynewnotesapp.data.model.NotesTable
 import com.example.mynewnotesapp.domain.repository.NotesRepository
 import com.example.mynewnotesapp.ui.notes_list.components.NotesData
 import com.example.mynewnotesapp.ui.notes_list.components.toNotesTable

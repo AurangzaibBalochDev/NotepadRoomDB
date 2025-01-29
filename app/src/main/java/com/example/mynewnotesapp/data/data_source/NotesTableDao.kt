@@ -17,6 +17,7 @@ interface NotesTableDao {
 
     @Query("select * from Notes")
     fun getAllNotes(): Flow<List<NotesTable>>
+
     @Query("select * from notes where id = :id")
     suspend fun getNoteById(id:String):NotesTable?
 }
