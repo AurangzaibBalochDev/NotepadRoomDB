@@ -1,4 +1,4 @@
-package com.example.mynewnotesapp.ui.notes_list
+package com.example.mynewnotesapp.ui.notes_list.components
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,8 +23,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Toc
 import androidx.compose.material.icons.filled.Today
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -33,9 +31,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,7 +48,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mynewnotesapp.R
@@ -59,49 +56,25 @@ import com.example.mynewnotesapp.ui.components.HeadingText
 import com.example.mynewnotesapp.ui.components.HorizentalSpacer
 import com.example.mynewnotesapp.ui.components.LoadingScreen
 import com.example.mynewnotesapp.ui.components.Routes
-import com.example.mynewnotesapp.ui.notes_list.components.FabButton
-import com.example.mynewnotesapp.ui.notes_list.components.NoteItem
-import com.example.mynewnotesapp.ui.notes_list.components.NoteResponse
 import org.koin.androidx.compose.koinViewModel
 
-
-@Preview(showBackground = true)
 @Composable
-fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
+fun TodoListScreen(
+    viewModel: TodoListViewModel = koinViewModel(),
+    addTodoViewModel: AddTodoViewModel = koinViewModel()
+) {
 
     val navController = LocalNavHostController.current
     val state by viewModel.state.collectAsState()
+    val stateAdd by addTodoViewModel.state.collectAsState()
 
-    var selectedButton by remember { mutableStateOf("All") }
 //    val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
-    var filteredNotes by remember {
-        mutableStateOf(state.noteResponse.data ?: emptyList())
+    val filteredTodos by remember {
+        mutableStateOf(state.todoResponse.data ?: emptyList())
     }
-    var searchedNotes by remember {
-        mutableStateOf(state.noteResponse.data ?: emptyList())
-    }
-
-
-
-    LaunchedEffect(state.noteResponse) {
-        filteredNotes = if (selectedButton == "All") {
-            state.noteResponse.data ?: emptyList()
-        } else {
-            state.noteResponse.data?.filter { it.noteType == selectedButton } ?: emptyList()
-        }
-    }
-
-    var buttonList by remember {
-        mutableStateOf(
-            listOf(
-                "All",
-                "Personal",
-                "Home",
-                "Office",
-                "Others",
-            )
-        )
+    var searchedTodos by remember {
+        mutableStateOf(state.todoResponse.data ?: emptyList())
     }
 
     var isSearchActive by remember { mutableStateOf(false) }
@@ -124,7 +97,7 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                     verticalAlignment = CenterVertically
                 ) {
                     Text(
-                        "Notes",
+                        "Todos",
                         color = Color.White,
                         style = TextStyle(fontWeight = FontWeight.Bold),
                         fontSize = 18.sp
@@ -135,7 +108,7 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                             value = query,
                             onValueChange = {
                                 query = it
-                                searchedNotes = viewModel.filterNotesByTitleandDescription(it)
+                                searchedTodos = viewModel.filterNotesByTitleandDescription(it)
                             },
                             placeholder = {
                                 Text("search here...")
@@ -170,44 +143,21 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                         isSearchActive = false
                     }
 
-                    LazyRow(
-                        modifier = Modifier
-                            .fillMaxWidth(0.9f)
-                            .padding(5.dp)
-                            .clip(shape = CircleShape),
-//                        state = lazyListState,
-                    ) {
-
-                        items(buttonList) { currentItem ->
-                            Button(
-                                onClick = {
-                                    selectedButton = currentItem
-                                    filteredNotes = viewModel.filterNotes(currentItem)
-                                    if (currentItem != "All") {
-                                        buttonList =
-                                            listOf("All") + listOf(currentItem) + buttonList.filter { it != "All" && it != currentItem }
-//                                        coroutineScope.launch {
-//                                            lazyListState.scrollToItem(0)
-//                                        }
-                                    } else {
-                                        filteredNotes = state.noteResponse.data ?: emptyList()
-                                        searchedNotes = state.noteResponse.data ?: emptyList()
-                                    }
-                                },
-                                modifier = Modifier.padding(
-                                    start = if (currentItem != buttonList[0]) 5.dp else 0.dp,
-                                    end = 5.dp
-                                ), colors = ButtonDefaults.buttonColors(
-                                    if (selectedButton == currentItem) colorResource(id = R.color.amlostBlack)
-                                    else colorResource(R.color.purple_700)
-                                )
-                            ) {
-                                Text(currentItem, fontSize = 12.sp)
-                            }
-                        }
-                    }
-
                 }
+
+                TextField(
+                    value = stateAdd.todo.title,
+                    onValueChange = {
+                        addTodoViewModel.setTodoTitle(it)
+                    },
+                    modifier = Modifier.fillMaxWidth(0.9f),
+                    placeholder = { Text("create a new todo..") },
+                    trailingIcon = {
+                      Checkbox(checked = stateAdd.todo.completed, onCheckedChange = {
+                        addTodoViewModel.setTodoCheck(it)
+                      })
+                    })
+
             }
         },
         bottomBar = {
@@ -226,7 +176,9 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                 verticalAlignment = CenterVertically
             ) {
                 IconButton(
-                    onClick = {}
+                    onClick = {
+                        navController.navigate(Routes.NotesListScreen.name)
+                    }
                 ) {
                     Icon(
                         Icons.Default.Home,
@@ -237,7 +189,7 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                 HorizentalSpacer(10.dp)
                 IconButton(
                     onClick = {
-                        navController.navigate(Routes.TodoListPage.name)
+//                        navController.navigate(Routes.TodoListPage.name)
                     }
                 ) {
                     Icon(
@@ -247,11 +199,10 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                     )
                 }
                 HorizentalSpacer(10.dp)
-
                 IconButton(
 
                     onClick = {
-                        if (filteredNotes.isEmpty()) {
+                        if (filteredTodos.isEmpty()) {
 
                             isSearchActive = false
                             Toast.makeText(
@@ -295,7 +246,7 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
             if (selectedNoteIds.isNotEmpty()) {
                 DeleteIconButton {
                     selectedNoteIds.forEach { id ->
-                        viewModel.deleteNote(id)
+//                        viewModel.deleteNote(id)
                         query = ""
                         isSearchActive = false
                     }
@@ -304,9 +255,25 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                 }
 
             } else {
-                FabButton {
-                    navController.navigate(Routes.AddNotesScreen.name)
-                }
+                FabButton(onClick = {
+                    addTodoViewModel.setTodo { todo ->
+                        if (todo.isBlank()) {
+                            Toast
+                                .makeText(navController.context, "Note Saved", Toast.LENGTH_SHORT)
+                                .show()
+
+                        } else {
+                            Toast
+                                .makeText(
+                                    navController.context,
+                                    "Fields are empty...",
+                                    Toast.LENGTH_SHORT
+                                )
+                                .show()
+                        }
+                    }
+
+                })
             }
         },
 
@@ -321,56 +288,56 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                 .background(color = colorResource(id = R.color.black)),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            when (state.noteResponse) {
-                is NoteResponse.EmptyList -> {
+            when (state.todoResponse) {
+                is TodoResponse.EmptyList -> {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         HeadingText("Add something to your note")
                         selectedNoteIds = emptySet()
                     }
                 }
 
-                is NoteResponse.Error -> {
+                is TodoResponse.Error -> {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         HeadingText("Something went wrong")
                     }
                 }
 
-                is NoteResponse.Loading -> {
+                is TodoResponse.Loading -> {
                     LoadingScreen(modifier = Modifier.fillMaxSize())
                 }
 
-                is NoteResponse.Success -> {
+                is TodoResponse.Success -> {
                     LazyColumn(
                         modifier = Modifier.padding(horizontal = 16.dp),
                     ) {
-                        items(if (query.isNotEmpty()) searchedNotes else filteredNotes) { note ->
+                        items(if (query.isNotEmpty()) searchedTodos else filteredTodos) { todo ->
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(vertical = 4.dp)
                                     .background(
-                                        color = if (selectedNoteIds.contains(note.id.toString())) colorResource(
+                                        color = if (selectedNoteIds.contains(todo.id.toString())) colorResource(
                                             R.color.purple_700
                                         )
                                         else Color.Transparent, shape = RoundedCornerShape(5.dp)
                                     )
                             ) {
-                                NoteItem(note, onClick = {
+                                TodoItem(todo, onClick = {
 
                                     if (selectedNoteIds.isEmpty()) {
                                         navController.navigate(
-                                            Routes.AddNotesScreen.name + "/${note.id}"
+                                            Routes.AddNotesScreen.name + "/${todo.id}"
                                         )
 
-                                    } else if (selectedNoteIds.contains(note.id.toString())) {
-                                        selectedNoteIds -= note.id.toString()
-                                    } else selectedNoteIds += note.id.toString()
+                                    } else if (selectedNoteIds.contains(todo.id.toString())) {
+                                        selectedNoteIds -= todo.id.toString()
+                                    } else selectedNoteIds += todo.id.toString()
 
 
                                 }, onLongClick = {
-                                    if (selectedNoteIds.contains(note.id.toString())) {
-                                        selectedNoteIds -= note.id.toString()
-                                    } else selectedNoteIds += note.id.toString()
+                                    if (selectedNoteIds.contains(todo.id.toString())) {
+                                        selectedNoteIds -= todo.id.toString()
+                                    } else selectedNoteIds += todo.id.toString()
 
 
                                 })
@@ -378,6 +345,9 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                         }
                     }
                 }
+
+                is TodoResponse.Loading -> TODO()
+                is TodoResponse.Success -> TODO()
             }
         }
     }

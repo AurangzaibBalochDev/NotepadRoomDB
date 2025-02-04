@@ -14,6 +14,7 @@ import com.example.mynewnotesapp.domain.usecases.GetTodoUsecase
 import com.example.mynewnotesapp.ui.add_note.AddNotesViewModel
 import com.example.mynewnotesapp.ui.notes_list.NotesListViewModel
 import com.example.mynewnotesapp.ui.notes_list.components.AddTodoViewModel
+import com.example.mynewnotesapp.ui.notes_list.components.TodoListViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -36,11 +37,12 @@ val sharedModules = module {
     factory { GetNotesUseCase(get()) }
     factory { GetTodoUsecase(get()) }  // Fixed naming
     factory { GetNoteById(get()) }
-    factory { GetTodoById(get()) }
+//    single { GetTodoById(get()) }
 
     // ViewModel injections
     viewModel { AddNotesViewModel(get(), get(), get()) }
     viewModel { NotesListViewModel(get(), get()) }
-    viewModel { AddTodoViewModel(get(), get(), get()) }
+    viewModel { AddTodoViewModel(get(), get())}
+    viewModel { TodoListViewModel(get())}
 }
 

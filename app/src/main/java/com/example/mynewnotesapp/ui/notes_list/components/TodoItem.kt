@@ -1,5 +1,6 @@
 package com.example.mynewnotesapp.ui.notes_list.components
 
+
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,10 +32,10 @@ import com.example.mynewnotesapp.ui.components.VerticalSpacer
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun NoteItem(
-    notesData: NotesData,
+fun TodoItem(
+    todoData: TodoData,
     isSelected: Boolean = false,
-    onClick: (() -> Unit)? = null,onLongClick: ((Boolean) -> Unit)? = null,
+    onClick: (() -> Unit)? = null, onLongClick: ((Boolean) -> Unit)? = null,
 ) {
     val backgroundColor =
         if (isSelected) Color.LightGray else colorResource(id = R.color.creamyWhite)
@@ -47,7 +49,6 @@ fun NoteItem(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp)
                 .combinedClickable(
                     onClick = { onClick?.invoke() },
                     onLongClick = { onLongClick?.invoke(isSelected) }
@@ -61,7 +62,7 @@ fun NoteItem(
                     modifier = Modifier
                         .fillMaxHeight()
                         .width(10.dp)
-                        .background(color = Color.Yellow)
+                        .background(color = colorResource(R.color.skyColor))
                 ) { /* Placeholder for left-side indicator */ }
 
                 HorizentalSpacer(10.dp)
@@ -74,7 +75,7 @@ fun NoteItem(
                     horizontalAlignment = Alignment.Start
                 ) {
                     Text(
-                        text = notesData.title,
+                        text = todoData.title,
                         fontSize = 18.sp,
                         color = colorResource(id = R.color.white),
                         fontWeight = FontWeight.Bold,
@@ -82,19 +83,24 @@ fun NoteItem(
                     )
                     VerticalSpacer(5.dp)
                     Text(
-                        text = notesData.message,
+                        text = todoData.createdAt,
                         fontSize = 10.sp,
                         color = colorResource(id = R.color.white),
-                        maxLines = 2
+                        maxLines = 1
                     )
-                    VerticalSpacer(5.dp)
                     Text(
-                        text = notesData.date,
+                        text = todoData.completed.toString(),
                         fontSize = 10.sp,
                         color = colorResource(id = R.color.amlostBlack),
                         maxLines = 1
                     )
+
                 }
+            Column (modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End){
+                Checkbox(todoData.completed,onCheckedChange = {
+                    todoData.completed = it
+                }, modifier = Modifier.padding(8.dp))
+            }
             }
         }
     }

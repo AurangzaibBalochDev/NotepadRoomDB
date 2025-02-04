@@ -7,10 +7,10 @@ import java.util.Locale
 
 
 data class TodoData(
-    var id: Int,
-    var title: String,
-    var completed: Boolean,
-    var createdAt: String,
+    var id: Int = 0,
+    var title: String = "",
+    var completed: Boolean = false,
+    var createdAt: String = getCurrentDateForTodo(),
 )
 
 
@@ -18,15 +18,13 @@ fun TodoData.toTodosTable(): TodosTable {
     return TodosTable(
         title = title,
         completed = completed,
-        createdAt = getCurrentDateForTodo(),
+        createdAt = createdAt,
         id = id,
     )
 }
+
 
 fun getCurrentDateForTodo(): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
     return formatter.format(Date())
 }
-
-
-

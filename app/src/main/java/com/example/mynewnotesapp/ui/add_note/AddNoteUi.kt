@@ -27,6 +27,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -137,6 +138,7 @@ fun AddNoteUi(viewModel: AddNotesViewModel = koinViewModel()) {
                 value = state.note.title,
                 hint = "Title",
                 weight = FontWeight.Bold,
+                textColor = colorResource(R.color.white),
                 onValueChange = {
                     viewModel.setTitle(it)
                 }, modifier = Modifier
@@ -147,6 +149,7 @@ fun AddNoteUi(viewModel: AddNotesViewModel = koinViewModel()) {
             CustomTextField(
                 value = state.note.message,
                 hint = "Description",
+                textColor = colorResource(R.color.white),
                 onValueChange = { viewModel.setMessage(it) },
                 modifier = Modifier
                     .weight(1f)

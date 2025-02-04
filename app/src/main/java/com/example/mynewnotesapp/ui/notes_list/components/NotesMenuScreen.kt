@@ -49,15 +49,6 @@ fun MyMenueScreen() {
 
     val menue = listOf("Privacy Policy", "Terms and Conditions", "Help", "About", "Share")
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = colorResource(R.color.black)),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("Menue", color = Color.White, fontSize = 20.sp, modifier = Modifier.padding(10.dp))
-        }
     }, bottomBar = {
 
         Divider(
@@ -100,9 +91,12 @@ fun MyMenueScreen() {
                                 disabledContentColor = Color.Transparent,
                                 disabledContainerColor = Color.Transparent
                             ),
-                            border = BorderStroke(1.dp, color = colorResource(R.color.amlostBlackUltra)),
+                            border = BorderStroke(
+                                1.dp,
+                                color = colorResource(R.color.amlostBlackUltra)
+                            )
 
-                            ) {
+                        ) {
                             Text(item, color = Color.White)
                         }
                     }

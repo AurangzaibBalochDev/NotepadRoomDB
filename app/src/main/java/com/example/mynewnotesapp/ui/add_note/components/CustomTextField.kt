@@ -1,6 +1,7 @@
 package com.example.mynewnotesapp.ui.add_note.components
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -21,6 +22,7 @@ fun CustomTextField(
     hint: String,
     weight: FontWeight = FontWeight.Normal,
     onValueChange: (String) -> Unit,
+    textColor:Color,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
     TextField(
@@ -39,8 +41,10 @@ fun CustomTextField(
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.Transparent,
             unfocusedContainerColor = Color.Transparent,
-            focusedTextColor = Color.White,
-            unfocusedTextColor = Color.White
-        )
+            focusedTextColor = textColor,
+            unfocusedTextColor = textColor
+        ),
+
+
     )
 }
