@@ -24,6 +24,7 @@ class MainActivity : ComponentActivity() {
             CompositionLocalProvider(LocalNavHostController provides navController) {
                 MyNavHost()
 
+
             }
         }
     }

@@ -25,6 +25,10 @@ class NotesRepositoryImpl(
         notesTableDao.deleteNote(id)
     }
 
+    override suspend fun deleteTodo(id: String) {
+        todoTableDao.deleteTodo(id)
+    }
+
     override fun getAllNotes(): Flow<List<NotesTable>> = notesTableDao.getAllNotes()
     override suspend fun getNoteById(id: String): NotesTable? {
         return notesTableDao.getNoteById(id)

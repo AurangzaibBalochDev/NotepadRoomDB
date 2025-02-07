@@ -72,9 +72,9 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
     val navController = LocalNavHostController.current
     val state by viewModel.state.collectAsState()
 
+
     var selectedButton by remember { mutableStateOf("All") }
-//    val lazyListState = rememberLazyListState()
-    val coroutineScope = rememberCoroutineScope()
+
     var filteredNotes by remember {
         mutableStateOf(state.noteResponse.data ?: emptyList())
     }
@@ -175,7 +175,6 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                             .fillMaxWidth(0.9f)
                             .padding(5.dp)
                             .clip(shape = CircleShape),
-//                        state = lazyListState,
                     ) {
 
                         items(buttonList) { currentItem ->
@@ -186,9 +185,7 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                                     if (currentItem != "All") {
                                         buttonList =
                                             listOf("All") + listOf(currentItem) + buttonList.filter { it != "All" && it != currentItem }
-//                                        coroutineScope.launch {
-//                                            lazyListState.scrollToItem(0)
-//                                        }
+
                                     } else {
                                         filteredNotes = state.noteResponse.data ?: emptyList()
                                         searchedNotes = state.noteResponse.data ?: emptyList()
@@ -226,7 +223,9 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                 verticalAlignment = CenterVertically
             ) {
                 IconButton(
-                    onClick = {}
+                    onClick = {
+                        navController.navigate(Routes.NotesListScreen.name)
+                    }
                 ) {
                     Icon(
                         Icons.Default.Home,
@@ -237,7 +236,9 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                 HorizentalSpacer(10.dp)
                 IconButton(
                     onClick = {
-                        navController.navigate(Routes.TodoListPage.name)
+                        if (Routes.TodoListPage.name != navController.currentDestination?.route) {
+                            navController.navigate(Routes.TodoListPage.name)
+                        }
                     }
                 ) {
                     Icon(
@@ -342,6 +343,8 @@ fun NotesListScreen(viewModel: NotesListViewModel = koinViewModel()) {
                 is NoteResponse.Success -> {
                     LazyColumn(
                         modifier = Modifier.padding(horizontal = 16.dp),
+                        reverseLayout = true
+
                     ) {
                         items(if (query.isNotEmpty()) searchedNotes else filteredNotes) { note ->
                             Box(

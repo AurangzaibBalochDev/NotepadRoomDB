@@ -45,7 +45,9 @@ fun BottomBar(
     ) {
         IconButton(
             onClick = {
-                navController.navigate(Routes.NotesListScreen.name)
+                if (Routes.NotesListScreen.name != navController.currentDestination?.route) {
+                    navController.navigate(Routes.NotesListScreen.name)
+                }
             }
         ) {
             Icon(
@@ -58,7 +60,9 @@ fun BottomBar(
 
         IconButton(
             onClick = {
-                // Add your calendar-related navigation or functionality here
+                if (Routes.TodoListPage.name != navController.currentDestination?.route) {
+                    navController.navigate(Routes.TodoListPage.name)
+                }
             }
         ) {
             Icon(
@@ -71,7 +75,7 @@ fun BottomBar(
 
         IconButton(
             onClick = {
-                navController.navigate(Routes.NotesListScreen.name)
+
             }
         ) {
             Icon(
@@ -84,7 +88,9 @@ fun BottomBar(
 
         IconButton(
             onClick = {
-                navController.navigate(Routes.MyMenueScreen.name)
+                if (Routes.MyMenueScreen.name != navController.currentDestination?.route) {
+                    navController.navigate(Routes.MyMenueScreen.name)
+                }
             }
         ) {
             Icon(

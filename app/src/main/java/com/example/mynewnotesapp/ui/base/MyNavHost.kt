@@ -14,7 +14,7 @@ import com.example.mynewnotesapp.ui.notes_list.components.TodoListScreen
 fun MyNavHost() {
 
     val controller = LocalNavHostController.current
-    NavHost(navController = controller, startDestination = Routes.NotesListScreen.name) {
+    NavHost(navController = controller, startDestination = Routes.TodoListPage.name) {
 
         composable(Routes.NotesListScreen.name) {
             NotesListScreen()
@@ -27,6 +27,9 @@ fun MyNavHost() {
             MyMenueScreen()
         }
         composable(Routes.TodoListPage.name) {
+            TodoListScreen()
+        }
+        composable(Routes.TodoListPage.name + "/{id}") {
             TodoListScreen()
         }
         composable(Routes.AddNotesScreen.name + "/{id}") {

@@ -1,23 +1,11 @@
 package com.example.mynewnotesapp.ui.notes_list.components
 
-
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,10 +23,11 @@ import com.example.mynewnotesapp.ui.components.VerticalSpacer
 fun TodoItem(
     todoData: TodoData,
     isSelected: Boolean = false,
-    onClick: (() -> Unit)? = null, onLongClick: ((Boolean) -> Unit)? = null,
+    onClick: (() -> Unit)? = null,
+    onLongClick: ((Boolean) -> Unit)? = null,
+    viewModel: AddTodoViewModel
 ) {
-    val backgroundColor =
-        if (isSelected) Color.LightGray else colorResource(id = R.color.creamyWhite)
+    val backgroundColor = if (isSelected) Color.LightGray else colorResource(id = R.color.creamyWhite)
 
     Box(
         modifier = Modifier
@@ -57,20 +46,23 @@ fun TodoItem(
             colors = CardDefaults.cardColors(backgroundColor),
             elevation = CardDefaults.elevatedCardElevation(4.dp)
         ) {
-            Row {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Column(
                     modifier = Modifier
                         .fillMaxHeight()
                         .width(10.dp)
                         .background(color = colorResource(R.color.skyColor))
-                ) { /* Placeholder for left-side indicator */ }
+                ) {}
 
                 HorizentalSpacer(10.dp)
 
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
+                    modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.Start
                 ) {
@@ -88,19 +80,20 @@ fun TodoItem(
                         color = colorResource(id = R.color.white),
                         maxLines = 1
                     )
-                    Text(
-                        text = todoData.completed.toString(),
-                        fontSize = 10.sp,
-                        color = colorResource(id = R.color.amlostBlack),
-                        maxLines = 1
-                    )
-
                 }
-            Column (modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End){
-                Checkbox(todoData.completed,onCheckedChange = {
-                    todoData.completed = it
-                }, modifier = Modifier.padding(8.dp))
-            }
+
+                Checkbox(
+                    checked = todoData.completed,
+                    onCheckedChange = { change->
+                        viewModel.updateTodo(
+                            todoData.copy(
+                                completed = change
+                            )
+                        ) },
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+
+
             }
         }
     }

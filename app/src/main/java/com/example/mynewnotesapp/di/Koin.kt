@@ -7,6 +7,7 @@ import com.example.mynewnotesapp.domain.repository.NotesRepository
 import com.example.mynewnotesapp.domain.usecases.AddNoteUseCase
 import com.example.mynewnotesapp.domain.usecases.AddTodoUseCase
 import com.example.mynewnotesapp.domain.usecases.DeleteNoteUsecase
+import com.example.mynewnotesapp.domain.usecases.DeleteTodoUsecase
 import com.example.mynewnotesapp.domain.usecases.GetNoteById
 import com.example.mynewnotesapp.domain.usecases.GetNotesUseCase
 import com.example.mynewnotesapp.domain.usecases.GetTodoById
@@ -34,15 +35,16 @@ val sharedModules = module {
     factory { AddNoteUseCase(get()) }
     factory { AddTodoUseCase(get()) }
     factory { DeleteNoteUsecase(get()) }
+    factory { DeleteTodoUsecase(get()) }
     factory { GetNotesUseCase(get()) }
     factory { GetTodoUsecase(get()) }  // Fixed naming
     factory { GetNoteById(get()) }
-//    single { GetTodoById(get()) }
+    factory { GetTodoById(get()) }
 
     // ViewModel injections
     viewModel { AddNotesViewModel(get(), get(), get()) }
     viewModel { NotesListViewModel(get(), get()) }
-    viewModel { AddTodoViewModel(get(), get())}
-    viewModel { TodoListViewModel(get())}
+    viewModel { AddTodoViewModel(get(), get(),get())}
+    viewModel { TodoListViewModel(get(),get())}
 }
 

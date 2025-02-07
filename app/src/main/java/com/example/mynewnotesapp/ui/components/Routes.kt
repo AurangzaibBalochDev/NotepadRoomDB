@@ -4,6 +4,6 @@ enum class Routes {
     NotesListScreen,
     AddNotesScreen,
     MyMenueScreen,
-    TodoListPage
+    TodoListPage,
 
 }
