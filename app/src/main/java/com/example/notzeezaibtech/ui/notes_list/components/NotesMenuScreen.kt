@@ -24,7 +24,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.notzeezaibtech.R
+import com.example.mynewnotesapp.R
 import com.example.notzeezaibtech.ui.base.LocalNavHostController
 import androidx.compose.foundation.background
 import androidx.compose.runtime.MutableState

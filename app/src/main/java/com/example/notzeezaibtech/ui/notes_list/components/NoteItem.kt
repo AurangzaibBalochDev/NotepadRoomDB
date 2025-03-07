@@ -24,7 +24,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.notzeezaibtech.R
+import com.example.mynewnotesapp.R
 import com.example.notzeezaibtech.ui.components.HorizentalSpacer
 import com.example.notzeezaibtech.ui.components.VerticalSpacer
 
